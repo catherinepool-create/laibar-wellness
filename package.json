@@ -1,0 +1,15 @@
+{
+  "name": "laibar-wellness",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Laibar Wellness — Premium Joint Support Supplement",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site — no build step needed'"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "resend": "^3.0.0",
+    "@netlify/functions": "^2.0.0"
+  }
+}
