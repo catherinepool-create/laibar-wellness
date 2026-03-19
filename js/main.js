@@ -26,6 +26,7 @@ const PRODUCT = {
   supplyDays: 30,
   rating: 4.8,
   reviewCount: 1247,
+  image: "images/bottle-front.png",
   gradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2520 40%, #1a1510 100%)",
   reviews: [
     { author: "Marcus T.", rating: 5, text: "I'm 42 and train 5x a week. This is the first joint supplement that actually keeps up with my lifestyle. Felt a real difference in my knees by week three.", date: "2026-02-15" },
@@ -369,7 +370,14 @@ function initProductDetail() {
   const breadcrumb = document.getElementById('detail-breadcrumb');
   if (breadcrumb) breadcrumb.innerHTML = `<a href="index.html">Home</a> &rsaquo; ${PRODUCT.name}`;
 
-  document.getElementById('detail-image').style.background = PRODUCT.gradient;
+  const detailImage = document.getElementById('detail-image');
+  if (PRODUCT.image) {
+    detailImage.classList.add('has-image');
+    detailImage.style.background = PRODUCT.gradient;
+    detailImage.innerHTML = `<img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:1.5rem;">`;
+  } else {
+    detailImage.style.background = PRODUCT.gradient;
+  }
   const badgeEl = document.getElementById('detail-badge');
   if (badgeEl) { badgeEl.textContent = PRODUCT.badge; badgeEl.style.display = 'inline-block'; }
   document.getElementById('detail-name').textContent = PRODUCT.name;
@@ -452,7 +460,9 @@ function renderCartPage() {
     itemsHTML += `
       <div class="cart-item" data-id="${PRODUCT.id}">
         <div class="cart-item-image">
-          <div class="product-gradient" style="background: ${PRODUCT.gradient}"></div>
+          ${PRODUCT.image
+            ? `<img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:0.25rem;">`
+            : `<div class="product-gradient" style="background: ${PRODUCT.gradient}"></div>`}
         </div>
         <div class="cart-item-name">
           <h4>${PRODUCT.name}${modeLabel}</h4>

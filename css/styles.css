@@ -483,6 +483,12 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   border-radius: 30% 30% 5% 5%;
   box-shadow: 0 8px 40px rgba(0,0,0,0.3);
 }
+.showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-md);
+}
 .showcase-info h3 {
   font-size: 2rem;
   color: var(--gold);
@@ -822,6 +828,9 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   background: rgba(255,255,255,0.08);
   border-radius: 30% 30% 5% 5%;
   box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+.product-detail-image .product-gradient.has-image::after {
+  display: none;
 }
 .product-detail-info h1 { font-size: 2.25rem; margin-bottom: var(--space-xs); }
 .product-detail-info .product-tagline {
@@ -1256,6 +1265,12 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   inset: 20px;
   border: 1px solid rgba(200,165,90,0.15);
   border-radius: var(--border-radius);
+  pointer-events: none;
+}
+.science-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .science-text h3 { margin-bottom: var(--space-sm); color: var(--gold); }
 .science-text p { font-size: 1rem; line-height: 1.8; }
