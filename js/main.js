@@ -374,7 +374,8 @@ function initProductDetail() {
   if (PRODUCT.image) {
     detailImage.classList.add('has-image');
     detailImage.style.background = PRODUCT.gradient;
-    detailImage.innerHTML = `<img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:1.5rem;">`;
+    const webpSrc = PRODUCT.image.replace(/\.(png|jpe?g)$/i, '.webp');
+    detailImage.innerHTML = `<picture><source srcset="${webpSrc}" type="image/webp"><img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:1.5rem;"></picture>`;
   } else {
     detailImage.style.background = PRODUCT.gradient;
   }
@@ -461,7 +462,7 @@ function renderCartPage() {
       <div class="cart-item" data-id="${PRODUCT.id}">
         <div class="cart-item-image">
           ${PRODUCT.image
-            ? `<img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:0.25rem;">`
+            ? `<picture><source srcset="${PRODUCT.image.replace(/\.(png|jpe?g)$/i, '.webp')}" type="image/webp"><img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:0.25rem;" loading="lazy"></picture>`
             : `<div class="product-gradient" style="background: ${PRODUCT.gradient}"></div>`}
         </div>
         <div class="cart-item-name">

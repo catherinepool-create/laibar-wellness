@@ -2,3 +2,5 @@ node_modules/
 .netlify/
 .env
 orders.json
+.DS_Store
+*/.DS_Store
