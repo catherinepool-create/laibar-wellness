@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Confirmed — Laibar Wellness</title>
-  <meta name="robots" content="noindex, nofollow">
+  <title>Shopping Cart — Laibar Wellness Joint Support Supplement</title>
+  <meta name="robots" content="noindex, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body data-page="order-success">
+<body data-page="cart">
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" id="announcement-bar">
+    FREE SHIPPING on orders $75+ &nbsp;|&nbsp; Subscribe & Save 12%
+    <button class="announcement-close" aria-label="Dismiss">&times;</button>
+  </div>
 
   <nav class="navbar">
     <div class="container nav-container">
@@ -34,25 +40,18 @@
 
   <section class="page-header">
     <div class="container">
-      <h1>Order <span class="gold-text">Confirmed</span></h1>
+      <h1>Your Cart</h1>
     </div>
   </section>
 
-  <section id="order-success-content" style="padding: var(--space-lg) 0; min-height: 50vh;">
-    <div class="container">
-      <div class="order-confirmation">
-        <div class="btn-spinner" style="margin:2rem auto;width:40px;height:40px;border-width:3px;display:block;position:static;transform:none"></div>
-        <p>Loading your order details...</p>
-      </div>
-    </div>
-  </section>
+  <section class="cart-content" id="cart-content"></section>
 
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="nav-logo" href="index.html">LAIBAR<span>Wellness</span></a>
-          <p>Premium joint support designed for active adults. 5 clinically-studied ingredients. One powerful formula.</p>
+          <p>Premium joint support designed for active adults. 12 active ingredients. One powerful formula.</p>
         </div>
         <div class="footer-col">
           <h4>Shop</h4>

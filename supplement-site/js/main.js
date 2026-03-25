@@ -12,16 +12,22 @@ const PRODUCT = {
   priceOneTime: 64.99,
   priceSubscription: 57.19, // 12% off
   badge: "Multi-Action Formula",
-  shortDescription: "5 clinically-studied ingredients with enhanced bioavailability. Glucosamine, Turmeric, Boswellia, Type II Collagen, and BioPerine\u00AE in one powerful formula.",
-  fullDescription: "Laibar Joint Support is a premium multi-action formula designed for active adults who refuse to slow down. We combined five clinically-studied ingredients at their full therapeutic doses \u2014 no proprietary blends, no hidden amounts. Glucosamine sulfate (1500mg) rebuilds cartilage. Turmeric extract standardized to 95% curcuminoids targets inflammation. Boswellia serrata provides additional anti-inflammatory support through a complementary pathway. Type II Collagen supports cartilage structure and joint cushioning. And BioPerine\u00AE (black pepper extract) enhances absorption of curcumin by up to 2000%, ensuring your body actually uses what you take. Clean label: Non-GMO, no artificial colors or flavors, third-party tested for purity and potency. Made in the USA in an FDA-registered, GMP-certified facility.",
+  shortDescription: "12 active ingredients in one powerful formula. Turmeric Complex 900mg, Collagen, Glucosamine, Chondroitin, Hyaluronic Acid, Boswellia, MSM, Bromelain & more for complete joint support.",
+  fullDescription: "Laibar Joint Support is a premium multi-action formula designed for active adults who refuse to slow down. Our comprehensive 12-ingredient blend targets joint health from every angle \u2014 no proprietary blends, no hidden amounts. A powerful 900mg Turmeric Complex with 95% curcuminoids leads the formula for anti-inflammatory support. Hydrolyzed Collagen Type II (100mg) and Chondroitin Sulfate (100mg) rebuild cartilage structure. Glucosamine Sulfate (100mg) and Hyaluronic Acid (100mg) support lubrication and cushioning. Boswellia Serrata (80mg) provides complementary anti-inflammatory support through a separate pathway. Vitamin C (60mg) aids collagen synthesis. Ginger Root (50mg) adds natural anti-inflammatory benefits. MSM (25mg) and Bromelain (25mg, 2500 GDU/g) further support recovery and comfort. Black Pepper Extract (5mg) enhances curcumin absorption so your body actually uses what you take. Clean label: Non-GMO, no artificial colors or flavors, third-party tested for purity and potency. Made in the USA in an FDA-registered, GMP-certified facility.",
   ingredients: [
-    { name: "Glucosamine Sulfate", amount: "1500mg", description: "Rebuilds cartilage & supports joint structure" },
-    { name: "Turmeric Extract (95% Curcuminoids)", amount: "1000mg", description: "Clinically-standardized anti-inflammatory" },
-    { name: "Boswellia Serrata Extract", amount: "600mg", description: "Complementary anti-inflammatory pathway" },
-    { name: "Type II Collagen", amount: "500mg", description: "Supports cartilage integrity & cushioning" },
-    { name: "BioPerine\u00AE (Black Pepper Extract)", amount: "10mg", description: "Enhances curcumin absorption by up to 2000%" }
+    { name: "Vitamin C (as Ascorbic Acid)", amount: "60mg", description: "Supports collagen synthesis & antioxidant protection" },
+    { name: "Turmeric Complex Extract Blend", amount: "900mg", description: "Turmeric Root Extract + Standardized 95% Curcuminoids" },
+    { name: "Hydrolyzed Collagen Type II Extract", amount: "100mg", description: "Supports cartilage structure & joint cushioning" },
+    { name: "Chondroitin Sulfate Extract", amount: "100mg", description: "Rebuilds cartilage & supports joint flexibility" },
+    { name: "Glucosamine Sulfate Extract", amount: "100mg", description: "Supports joint structure & cartilage repair" },
+    { name: "Hyaluronic Acid Extract", amount: "100mg", description: "Lubricates joints & supports synovial fluid" },
+    { name: "Boswellia Serrata Resin Extract", amount: "80mg", description: "Anti-inflammatory via 5-LOX enzyme pathway" },
+    { name: "Ginger Root Extract", amount: "50mg", description: "Natural anti-inflammatory & digestive support" },
+    { name: "MSM (Methylsulfonylmethane) Extract", amount: "25mg", description: "Supports joint recovery & reduces oxidative stress" },
+    { name: "Bromelain Fruit Extract (2,500 GDU/g)", amount: "25mg", description: "Enzyme support for inflammation & tissue repair" },
+    { name: "Black Pepper Fruit Extract (Piperine)", amount: "5mg", description: "Enhances curcumin absorption & nutrient bioavailability" }
   ],
-  dosage: "Take 2 capsules daily with food and water for optimal absorption.",
+  dosage: "Take two (2) capsules per day. Do not exceed recommended dose.",
   servings: 60,
   supplyDays: 30,
   rating: 4.8,
@@ -31,7 +37,7 @@ const PRODUCT = {
   reviews: [
     { author: "Marcus T.", rating: 5, text: "I'm 42 and train 5x a week. This is the first joint supplement that actually keeps up with my lifestyle. Felt a real difference in my knees by week three.", date: "2026-02-15" },
     { author: "Sarah K.", rating: 5, text: "Love the transparent labeling \u2014 I can see exactly what I'm taking and at what dose. No proprietary blend nonsense. My morning runs feel smoother.", date: "2026-01-28" },
-    { author: "James W.", rating: 5, text: "Switched from a big-name brand and the difference is night and day. The BioPerine for absorption is a game changer. Quality product.", date: "2026-02-08" },
+    { author: "James W.", rating: 5, text: "Switched from a big-name brand and the difference is night and day. The turmeric complex with black pepper for absorption is a game changer. Quality product.", date: "2026-02-08" },
     { author: "Andrea L.", rating: 4, text: "Takes a couple weeks to fully kick in, but once it does \u2014 wow. My yoga practice has never felt better. Clean ingredients, no stomach issues.", date: "2026-01-10" },
     { author: "David R.", rating: 5, text: "Finally a supplement brand that doesn't treat joint health like it's only for seniors. Modern brand, serious formula. Highly recommend.", date: "2026-02-20" },
     { author: "Michelle P.", rating: 5, text: "The multi-action approach makes so much sense. One bottle covers what used to take me three separate supplements. And it actually works.", date: "2025-12-30" }
@@ -388,7 +394,7 @@ function initProductDetail() {
   document.getElementById('detail-meta').textContent = `${PRODUCT.servings} capsules | ${PRODUCT.supplyDays}-day supply`;
 
   // Description tab
-  document.getElementById('tab-description').innerHTML = `<p>${PRODUCT.fullDescription}</p><p style="margin-top:1rem"><strong style="color:var(--gold)">Dosage:</strong> ${PRODUCT.dosage}</p>`;
+  document.getElementById('tab-description').innerHTML = `<p>${PRODUCT.fullDescription}</p><p style="margin-top:1rem"><strong style="color:var(--gold)">Dosage:</strong> ${PRODUCT.dosage}</p><div class="product-label-images" style="display:flex;gap:1.5rem;margin-top:2rem;flex-wrap:wrap;"><div style="flex:1;min-width:200px;"><h4 style="color:var(--gold);margin-bottom:0.75rem;">Supplement Facts</h4><img src="images/supplement-facts.png" alt="Laibar Joint Support Supplement Facts Label" style="width:100%;border-radius:8px;border:1px solid rgba(198,160,102,0.2);" loading="lazy"></div><div style="flex:1;min-width:200px;"><h4 style="color:var(--gold);margin-bottom:0.75rem;">Suggested Use</h4><img src="images/dose-info.png" alt="Laibar Joint Support Dosage and Usage Information" style="width:100%;border-radius:8px;border:1px solid rgba(198,160,102,0.2);" loading="lazy"></div></div><p class="fda-disclaimer" style="margin-top:1.5rem;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">* These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>`;
 
   // Ingredients tab
   let ingredientsHTML = '<table class="ingredients-table"><thead><tr><th>Ingredient</th><th>Amount Per Serving</th></tr></thead><tbody>';
