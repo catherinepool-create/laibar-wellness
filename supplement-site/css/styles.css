@@ -253,6 +253,44 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   position: relative;
   overflow: hidden;
 }
+.hero.hero-split {
+  flex-direction: row;
+  text-align: left;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  max-width: 100%;
+  padding: var(--space-lg) var(--space-md);
+}
+.hero-split .hero-content {
+  flex: 1;
+  max-width: 550px;
+  position: relative;
+  z-index: 1;
+}
+.hero-split .hero-content .hero-subtitle,
+.hero-split .hero-content h1,
+.hero-split .hero-content p,
+.hero-split .hero-content .btn {
+  position: relative;
+  z-index: 1;
+}
+.hero-split .hero-product {
+  flex: 0 0 auto;
+  width: 380px;
+  position: relative;
+  z-index: 1;
+}
+.hero-split .hero-product img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+  animation: heroFloat 4s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
 .hero::before {
   content: '';
   position: absolute;
@@ -400,7 +438,9 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
 /* --- Brand Promise (3-col icons) --- */
 .brand-promise {
   padding: var(--space-xl) 0;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .promise-grid {
   display: grid;
@@ -445,6 +485,8 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
 .product-showcase {
   padding: var(--space-xl) 0;
   background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .product-showcase h2 {
   text-align: center;
@@ -714,6 +756,7 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
 .testimonials {
   padding: var(--space-xl) 0;
   background: var(--bg-primary);
+  border-top: 1px solid var(--border);
 }
 .testimonials h2 {
   text-align: center;
@@ -1866,6 +1909,14 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   h2 { font-size: 1.75rem; }
   .hero { min-height: 70vh; }
   .hero h1 { font-size: 2.5rem; }
+  .hero.hero-split {
+    flex-direction: column;
+    text-align: center;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+  }
+  .hero-split .hero-content { max-width: 100%; }
+  .hero-split .hero-product { width: 220px; order: -1; margin-bottom: var(--space-sm); }
   .popup-content { padding: var(--space-md); }
   .popup-content h2 { font-size: 1.5rem; }
   .purchase-toggle { max-width: 100%; }
