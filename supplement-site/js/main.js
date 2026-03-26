@@ -243,76 +243,116 @@ function initAnnouncementBar() {
   }
 }
 
-// --- Exit Intent Popup ---
-function initExitIntent() {
-  if (sessionStorage.getItem('exit-intent-shown')) return;
+// --- Email Capture Popup (exit-intent + timed) ---
+function initEmailPopup() {
+  if (sessionStorage.getItem('email-popup-shown')) return;
   if (localStorage.getItem('laibar_subscribed')) return;
+
+  const overlay = document.getElementById('email-popup-overlay');
+  if (!overlay) return;
 
   let triggered = false;
 
-  document.addEventListener('mouseout', (e) => {
+  function showPopup() {
     if (triggered) return;
-    if (e.clientY <= 0 && e.relatedTarget === null) {
-      triggered = true;
-      sessionStorage.setItem('exit-intent-shown', '1');
-      showExitPopup();
-    }
+    triggered = true;
+    sessionStorage.setItem('email-popup-shown', '1');
+    overlay.classList.add('active');
+  }
+
+  function hidePopup() {
+    overlay.classList.remove('active');
+  }
+
+  // Exit intent (desktop)
+  document.addEventListener('mouseout', (e) => {
+    if (e.clientY <= 0 && e.relatedTarget === null) showPopup();
+  });
+
+  // Timed fallback (mobile + desktop) — show after 8 seconds
+  setTimeout(showPopup, 8000);
+
+  // Close handlers
+  const closeBtn = document.getElementById('email-popup-close');
+  const dismissBtn = document.getElementById('email-popup-dismiss');
+  if (closeBtn) closeBtn.addEventListener('click', hidePopup);
+  if (dismissBtn) dismissBtn.addEventListener('click', hidePopup);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePopup(); });
+
+  // Form submit
+  const form = document.getElementById('email-popup-form');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = form.querySelector('input');
+      const btn = form.querySelector('button');
+      btn.classList.add('btn-loading');
+      btn.disabled = true;
+
+      try {
+        await fetch('/api/newsletter-subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value }),
+        });
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to: input.value, type: 'welcome', data: {} }),
+        });
+
+        localStorage.setItem('laibar_subscribed', '1');
+        form.innerHTML = '<p style="color:var(--gold);font-weight:600;text-align:center;padding:1rem 0">Check your inbox for your 10% off code!</p>';
+        setTimeout(hidePopup, 2500);
+      } catch {
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
+        showToast('Something went wrong. Please try again.', 'error');
+      }
+    });
+  }
+}
+
+// --- Product Image Gallery ---
+function initProductGallery() {
+  const thumbs = document.querySelectorAll('.gallery-thumb');
+  const mainImg = document.getElementById('gallery-main-img');
+  if (!thumbs.length || !mainImg) return;
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = thumb.dataset.src;
+        mainImg.alt = thumb.dataset.alt;
+        mainImg.style.opacity = '1';
+      }, 150);
+    });
   });
 }
 
-function showExitPopup() {
-  const overlay = document.createElement('div');
-  overlay.className = 'popup-overlay';
-  overlay.innerHTML = `
-    <div class="popup-content">
-      <button class="popup-close" aria-label="Close">&times;</button>
-      <h2>Wait \u2014 don't leave empty-handed</h2>
-      <p>Get <strong style="color:var(--gold)">10% off</strong> your first order.</p>
-      <form class="popup-form" id="exit-intent-form">
-        <input type="email" placeholder="Enter your email" required>
-        <button type="submit" class="btn btn-primary btn-full">Get My 10% Off</button>
-      </form>
-      <p class="popup-note">No spam. Unsubscribe anytime.</p>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-  requestAnimationFrame(() => overlay.classList.add('visible'));
+// --- Sticky Mobile Add to Cart ---
+function initStickyATC() {
+  const sticky = document.getElementById('sticky-atc');
+  if (!sticky) return;
 
-  overlay.querySelector('.popup-close').addEventListener('click', () => closePopup(overlay));
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closePopup(overlay); });
+  // Find the main CTA button to track visibility
+  const heroBtn = document.querySelector('.hero .btn-primary') || document.querySelector('.showcase-info .btn-primary');
+  if (!heroBtn) return;
 
-  const form = overlay.querySelector('#exit-intent-form');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = form.querySelector('input').value;
-    const btn = form.querySelector('button');
-    btn.classList.add('btn-loading');
-    btn.disabled = true;
-
-    try {
-      // Subscribe to newsletter
-      await fetch('/api/newsletter-subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      // Send welcome email with discount code
-      await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: email, type: 'welcome', data: {} }),
-      });
-
-      localStorage.setItem('laibar_subscribed', '1');
-      form.innerHTML = '<p style="color:var(--gold);font-weight:600;text-align:center;padding:1rem 0">Check your inbox for your 10% off code!</p>';
-      setTimeout(() => closePopup(overlay), 2500);
-    } catch {
-      btn.classList.remove('btn-loading');
-      btn.disabled = false;
-      showToast('Something went wrong. Please try again.', 'error');
+  const observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      sticky.style.transform = 'translateY(100%)';
+    } else {
+      sticky.style.transform = 'translateY(0)';
     }
-  });
+  }, { threshold: 0 });
+
+  sticky.style.transition = 'transform 0.3s ease';
+  sticky.style.transform = 'translateY(100%)';
+  observer.observe(heroBtn);
 }
 
 function closePopup(overlay) {
@@ -425,15 +465,7 @@ function initProductDetail() {
   const breadcrumb = document.getElementById('detail-breadcrumb');
   if (breadcrumb) breadcrumb.innerHTML = `<a href="index.html">Home</a> &rsaquo; ${PRODUCT.name}`;
 
-  const detailImage = document.getElementById('detail-image');
-  if (PRODUCT.image) {
-    detailImage.classList.add('has-image');
-    detailImage.style.background = PRODUCT.gradient;
-    const webpSrc = PRODUCT.image.replace(/\.(png|jpe?g)$/i, '.webp');
-    detailImage.innerHTML = `<picture><source srcset="${webpSrc}" type="image/webp"><img src="${PRODUCT.image}" alt="${PRODUCT.name}" style="width:100%;height:100%;object-fit:contain;padding:1.5rem;"></picture>`;
-  } else {
-    detailImage.style.background = PRODUCT.gradient;
-  }
+  // Gallery is now in HTML — no JS override needed
   const badgeEl = document.getElementById('detail-badge');
   if (badgeEl) { badgeEl.textContent = PRODUCT.badge; badgeEl.style.display = 'inline-block'; }
   document.getElementById('detail-name').textContent = PRODUCT.name;
@@ -781,12 +813,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initNewsletter();
   initAnnouncementBar();
-  initExitIntent();
+  initEmailPopup();
+  initStickyATC();
 
   const page = document.body.dataset.page;
   switch (page) {
     case 'home': initHomePage(); break;
-    case 'product-detail': initProductDetail(); break;
+    case 'product-detail': initProductDetail(); initProductGallery(); break;
     case 'cart': renderCartPage(); break;
     case 'order-success': initOrderSuccess(); break;
     case 'contact': initContactForm(); break;

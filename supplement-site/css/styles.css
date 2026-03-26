@@ -1998,6 +1998,274 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   margin-bottom: 0;
 }
 
+/* --- Product Image Gallery --- */
+.product-gallery {
+  position: sticky;
+  top: calc(var(--nav-height) + 1rem);
+}
+.gallery-main {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+  transition: opacity 0.3s ease;
+}
+.gallery-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.gallery-thumb {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: var(--bg-tertiary);
+  transition: border-color var(--transition-fast);
+}
+.gallery-thumb.active,
+.gallery-thumb:hover {
+  border-color: var(--gold);
+}
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- How It Works --- */
+.how-it-works {
+  padding: var(--space-xl) 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+.how-it-works h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.how-it-works .section-subtitle {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  position: relative;
+}
+.step-card {
+  text-align: center;
+  padding: var(--space-md);
+  position: relative;
+}
+.step-number {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(200, 165, 90, 0.1);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0 auto var(--space-sm);
+}
+.step-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.step-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+.step-image {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+}
+.step-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Sticky Mobile Add to Cart --- */
+.sticky-atc {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(10, 10, 10, 0.97);
+  border-top: 1px solid var(--gold);
+  padding: 0.75rem var(--space-md);
+  backdrop-filter: blur(20px);
+}
+.sticky-atc-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  gap: 1rem;
+}
+.sticky-atc-info {
+  display: flex;
+  flex-direction: column;
+}
+.sticky-atc-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+.sticky-atc-price {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+.sticky-atc .btn {
+  white-space: nowrap;
+  padding: 0.7rem 1.5rem;
+}
+
+/* --- Email Capture Popup --- */
+.email-popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+.email-popup-overlay.active {
+  display: flex;
+}
+.email-popup {
+  background: var(--bg-secondary);
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  max-width: 480px;
+  width: 90%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.email-popup-image {
+  height: 200px;
+  overflow: hidden;
+}
+.email-popup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.email-popup-body {
+  padding: var(--space-md);
+  text-align: center;
+}
+.email-popup-body h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.email-popup-body p {
+  font-size: 0.95rem;
+  margin-bottom: var(--space-sm);
+}
+.email-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.email-popup-form input {
+  width: 100%;
+  padding: 0.85rem var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 1rem;
+  text-align: center;
+}
+.email-popup-form input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+.email-popup-form input::placeholder { color: var(--text-muted); }
+.email-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--white);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  z-index: 1;
+}
+.email-popup-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+.email-popup-dismiss {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+}
+
+/* --- Inline Star Rating --- */
+.inline-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.inline-rating .stars {
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+.inline-rating .rating-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 /* --- Loading States --- */
 .btn-loading {
   pointer-events: none;
@@ -2213,6 +2481,11 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   .showcase-layout { grid-template-columns: 1fr; }
   .bundle-selector { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
   .bundle-price { font-size: 1rem; }
+  .steps-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
+  .step-image { height: 200px; }
+  .product-gallery { position: static; }
+  .sticky-atc { display: flex; }
+  .email-popup-image { height: 160px; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
   .lifestyle-band { grid-template-columns: 1fr; }
