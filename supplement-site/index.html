@@ -151,8 +151,30 @@
       <h2 class="fade-in">The <span class="gold-text">Formula</span></h2>
       <p class="section-subtitle fade-in">Multi-action joint support. No proprietary blends. No hidden doses.</p>
       <div class="showcase-layout fade-in">
-        <div class="showcase-image">
-          <img src="images/hf_20260326_032458_a4fd123d-43eb-484e-b448-bad8e04478e3.jpeg" alt="Laibar Joint Support — 1, 3, and 6 bottle bundles on marble display" class="showcase-img" loading="lazy" width="800" height="800" style="border-radius:var(--border-radius);">
+        <div class="showcase-image-gallery">
+          <div class="showcase-main-img" id="showcase-main-img">
+            <img src="images/no background bottle- front.png" alt="Laibar Joint Support bottle" id="showcase-main">
+          </div>
+          <div class="showcase-thumbs" id="showcase-thumbs">
+            <button class="showcase-thumb active" data-src="images/no background bottle- front.png" data-alt="Laibar Joint Support bottle — front view">
+              <img src="images/no background bottle- front.png" alt="Front view">
+            </button>
+            <button class="showcase-thumb" data-src="images/hf_20260326_032528_63db1b78-2cc7-41f3-b80e-966f78e44b7b.jpeg" data-alt="Hand holding Laibar Joint Support bottle">
+              <img src="images/hf_20260326_032528_63db1b78-2cc7-41f3-b80e-966f78e44b7b.jpeg" alt="Hand holding bottle">
+            </button>
+            <button class="showcase-thumb" data-src="images/hf_20260326_032458_a4fd123d-43eb-484e-b448-bad8e04478e3.jpeg" data-alt="Laibar Joint Support 1, 3, and 6 bottle bundles">
+              <img src="images/hf_20260326_032458_a4fd123d-43eb-484e-b448-bad8e04478e3.jpeg" alt="Bundle display">
+            </button>
+            <button class="showcase-thumb" data-src="images/supplement-facts.png" data-alt="Supplement Facts label">
+              <img src="images/supplement-facts.png" alt="Supplement Facts">
+            </button>
+            <button class="showcase-thumb" data-src="images/dose-info.png" data-alt="Suggested Use and Dosage Information">
+              <img src="images/dose-info.png" alt="Dosage info">
+            </button>
+            <button class="showcase-thumb" data-src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" data-alt="Laibar Joint Support with turmeric and yoga mat">
+              <img src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" alt="Lifestyle">
+            </button>
+          </div>
         </div>
         <div class="showcase-info">
           <h3>Laibar Joint Support</h3>
@@ -168,10 +190,6 @@
             <li>MSM, Bromelain &amp; Vitamin C for recovery support</li>
             <li>Black Pepper Extract &mdash; enhanced curcumin absorption</li>
           </ul>
-          <div class="showcase-labels" style="display:flex;gap:1rem;margin-top:1.5rem;">
-            <img src="images/supplement-facts.png" alt="Laibar Joint Support Supplement Facts Label" style="width:48%;border-radius:6px;border:1px solid rgba(198,160,102,0.15);" loading="lazy">
-            <img src="images/dose-info.png" alt="Laibar Joint Support Dosage Information" style="width:48%;border-radius:6px;border:1px solid rgba(198,160,102,0.15);" loading="lazy">
-          </div>
           <div class="bundle-selector" id="bundle-selector">
             <label class="bundle-option" data-qty="1" data-price="64.99">
               <input type="radio" name="bundle" value="1" checked>
@@ -687,22 +705,85 @@
     </div>
   </div>
 
-  <!-- Email Capture Popup -->
+  <!-- Joint Health Quiz Popup -->
   <div class="email-popup-overlay" id="email-popup-overlay">
-    <div class="email-popup">
+    <div class="email-popup quiz-popup">
       <button class="email-popup-close" id="email-popup-close" aria-label="Close">&times;</button>
-      <div class="email-popup-image">
-        <img src="images/hf_20260326_032746_aabd7abb-73de-4991-846b-c1265781a3a0.jpeg" alt="Laibar Joint Support morning wellness routine" loading="lazy">
+
+      <!-- Step 0: Intro -->
+      <div class="quiz-step active" data-step="0">
+        <div class="email-popup-image">
+          <img src="images/hf_20260326_032746_aabd7abb-73de-4991-846b-c1265781a3a0.jpeg" alt="Laibar wellness routine" loading="lazy">
+        </div>
+        <div class="email-popup-body">
+          <h3>Up to <span class="gold-text">25% OFF</span></h3>
+          <p>Answer 3 quick questions about your joints &mdash; we'll give you a personalized <strong>Joint Health Score</strong> and a discount of 10&ndash;25% off your first order.</p>
+          <button class="btn btn-primary btn-full quiz-next" data-next="1">Get My Discount</button>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;margin-bottom:0;">Takes 15 seconds &bull; No spam, ever</p>
+        </div>
       </div>
-      <div class="email-popup-body">
-        <h3>Get <span class="gold-text">10% Off</span></h3>
-        <p>Join 5,000+ customers. Get your discount code instantly.</p>
-        <form class="email-popup-form" id="email-popup-form">
-          <input type="email" placeholder="Enter your email" required>
-          <button type="submit" class="btn btn-primary btn-full">Claim My 10% Discount</button>
-        </form>
-        <button class="email-popup-dismiss" id="email-popup-dismiss">No thanks, I'll pay full price</button>
+
+      <!-- Step 1: Joint Stiffness -->
+      <div class="quiz-step" data-step="1">
+        <div class="email-popup-body">
+          <div class="quiz-progress"><div class="quiz-progress-bar" style="width:33%"></div></div>
+          <p class="quiz-question-num">Question 1 of 3</p>
+          <h3>How often do you experience <span class="gold-text">joint stiffness</span>?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="1">Rarely — only after intense activity</button>
+            <button class="quiz-option" data-value="2">A few times a week, especially mornings</button>
+            <button class="quiz-option" data-value="3">Almost daily — it limits what I can do</button>
+          </div>
+        </div>
       </div>
+
+      <!-- Step 2: Activity Level -->
+      <div class="quiz-step" data-step="2">
+        <div class="email-popup-body">
+          <div class="quiz-progress"><div class="quiz-progress-bar" style="width:66%"></div></div>
+          <p class="quiz-question-num">Question 2 of 3</p>
+          <h3>How would you describe your <span class="gold-text">activity level</span>?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="1">Very active — I train or exercise regularly</button>
+            <button class="quiz-option" data-value="2">Moderate — walks, gardening, weekend activities</button>
+            <button class="quiz-option" data-value="3">Limited — joint discomfort holds me back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Current Supplements -->
+      <div class="quiz-step" data-step="3">
+        <div class="email-popup-body">
+          <div class="quiz-progress"><div class="quiz-progress-bar" style="width:100%"></div></div>
+          <p class="quiz-question-num">Question 3 of 3</p>
+          <h3>Have you tried <span class="gold-text">joint supplements</span> before?</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="1">No, this would be my first</button>
+            <button class="quiz-option" data-value="2">Yes, but didn't notice much difference</button>
+            <button class="quiz-option" data-value="3">Yes, currently taking one but want something better</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Score + Email -->
+      <div class="quiz-step" data-step="4">
+        <div class="email-popup-body" style="padding-top:var(--space-lg);">
+          <div class="quiz-score-display">
+            <div class="quiz-score-circle" id="quiz-score-circle">
+              <span class="quiz-score-number" id="quiz-score-number">—</span>
+              <span class="quiz-score-label">Joint Score</span>
+            </div>
+          </div>
+          <h3 id="quiz-score-title">Your Joint Health Score</h3>
+          <p id="quiz-score-desc">Loading your results...</p>
+          <p class="quiz-discount-reveal" id="quiz-discount-text"></p>
+          <form class="email-popup-form" id="email-popup-form">
+            <input type="email" placeholder="Enter your email for your code" required>
+            <button type="submit" class="btn btn-primary btn-full">Unlock My Discount</button>
+          </form>
+        </div>
+      </div>
+
     </div>
   </div>
 

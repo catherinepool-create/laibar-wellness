@@ -243,7 +243,7 @@ function initAnnouncementBar() {
   }
 }
 
-// --- Email Capture Popup (exit-intent + timed) ---
+// --- Joint Health Quiz Popup ---
 function initEmailPopup() {
   if (sessionStorage.getItem('email-popup-shown')) return;
   if (localStorage.getItem('laibar_subscribed')) return;
@@ -252,6 +252,7 @@ function initEmailPopup() {
   if (!overlay) return;
 
   let triggered = false;
+  let quizAnswers = [];
 
   function showPopup() {
     if (triggered) return;
@@ -269,15 +270,88 @@ function initEmailPopup() {
     if (e.clientY <= 0 && e.relatedTarget === null) showPopup();
   });
 
-  // Timed fallback (mobile + desktop) — show after 8 seconds
+  // Timed fallback — show after 8 seconds
   setTimeout(showPopup, 8000);
 
-  // Close handlers
+  // Close handler
   const closeBtn = document.getElementById('email-popup-close');
-  const dismissBtn = document.getElementById('email-popup-dismiss');
   if (closeBtn) closeBtn.addEventListener('click', hidePopup);
-  if (dismissBtn) dismissBtn.addEventListener('click', hidePopup);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) hidePopup(); });
+
+  // Navigate to step
+  function goToStep(stepNum) {
+    overlay.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    const target = overlay.querySelector(`.quiz-step[data-step="${stepNum}"]`);
+    if (target) target.classList.add('active');
+  }
+
+  // Intro "Get My Discount" button
+  const nextBtn = overlay.querySelector('.quiz-next');
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => goToStep(parseInt(nextBtn.dataset.next)));
+  }
+
+  // Quiz option clicks — auto-advance
+  overlay.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const step = opt.closest('.quiz-step');
+      const stepNum = parseInt(step.dataset.step);
+
+      // Highlight selected
+      step.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+
+      // Store answer
+      quizAnswers[stepNum - 1] = parseInt(opt.dataset.value);
+
+      // Advance after brief delay
+      setTimeout(() => {
+        if (stepNum < 3) {
+          goToStep(stepNum + 1);
+        } else {
+          showScore();
+        }
+      }, 300);
+    });
+  });
+
+  // Calculate and show score
+  function showScore() {
+    const total = quizAnswers.reduce((a, b) => a + b, 0); // 3-9
+    // Higher total = worse joints = higher discount
+    // Score: inverse — 9 max issues → low score
+    const score = Math.max(10, Math.round(100 - ((total - 3) / 6) * 75));
+
+    let discount, code, title, desc;
+    if (score >= 75) {
+      discount = 10; code = 'JOINT10';
+      title = 'Looking Good!';
+      desc = 'Your joints are in decent shape. Laibar can help you stay ahead and keep moving freely.';
+    } else if (score >= 45) {
+      discount = 20; code = 'JOINT20';
+      title = 'Room for Improvement';
+      desc = 'Your joints could use some support. Laibar\'s 12-ingredient formula targets exactly the areas you\'re struggling with.';
+    } else {
+      discount = 25; code = 'JOINT25';
+      title = 'Time to Take Action';
+      desc = 'Your joints need serious support. The good news? Laibar was built for exactly this — and we\'re giving you our biggest discount.';
+    }
+
+    goToStep(4);
+
+    // Animate score number
+    const scoreEl = document.getElementById('quiz-score-number');
+    let current = 0;
+    const interval = setInterval(() => {
+      current += 2;
+      if (current >= score) { current = score; clearInterval(interval); }
+      scoreEl.textContent = current;
+    }, 20);
+
+    document.getElementById('quiz-score-title').textContent = title;
+    document.getElementById('quiz-score-desc').textContent = desc;
+    document.getElementById('quiz-discount-text').innerHTML = `You unlocked <strong>${discount}% OFF</strong> — use code <strong>${code}</strong>`;
+  }
 
   // Form submit
   const form = document.getElementById('email-popup-form');
@@ -302,8 +376,8 @@ function initEmailPopup() {
         });
 
         localStorage.setItem('laibar_subscribed', '1');
-        form.innerHTML = '<p style="color:var(--gold);font-weight:600;text-align:center;padding:1rem 0">Check your inbox for your 10% off code!</p>';
-        setTimeout(hidePopup, 2500);
+        form.innerHTML = '<p style="color:var(--gold);font-weight:600;text-align:center;padding:1rem 0">Check your inbox for your discount code!</p>';
+        setTimeout(hidePopup, 3000);
       } catch {
         btn.classList.remove('btn-loading');
         btn.disabled = false;
@@ -446,6 +520,26 @@ function initBundleSelector() {
   }
 }
 
+// --- Showcase Gallery (Homepage) ---
+function initShowcaseGallery() {
+  const thumbs = document.querySelectorAll('.showcase-thumb');
+  const mainImg = document.getElementById('showcase-main');
+  if (!thumbs.length || !mainImg) return;
+
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+      mainImg.style.opacity = '0';
+      setTimeout(() => {
+        mainImg.src = thumb.dataset.src;
+        mainImg.alt = thumb.dataset.alt;
+        mainImg.style.opacity = '1';
+      }, 150);
+    });
+  });
+}
+
 // --- Home Page ---
 function initHomePage() {
   const addBtn = document.getElementById('home-add-to-cart');
@@ -458,6 +552,7 @@ function initHomePage() {
   }
   initSubscribeToggle();
   initBundleSelector();
+  initShowcaseGallery();
 }
 
 // --- Product Detail ---
