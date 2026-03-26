@@ -171,31 +171,28 @@
         <p class="breadcrumb" id="detail-breadcrumb"><a href="index.html">Home</a></p>
         <div class="product-detail-layout">
           <div class="product-detail-image">
-            <div class="product-gallery" id="product-gallery">
-              <div class="gallery-main" id="gallery-main">
-                <picture>
-                  <source srcset="images/bottle-front.webp" type="image/webp">
-                  <img src="images/bottle-front.png" alt="Laibar Joint Support bottle — front view" id="gallery-main-img">
-                </picture>
+            <div class="showcase-image-gallery">
+              <div class="showcase-main-img" id="detail-main-img">
+                <img src="images/no background bottle- front.png" alt="Laibar Joint Support bottle" id="detail-main">
               </div>
-              <div class="gallery-thumbs" id="gallery-thumbs">
-                <button class="gallery-thumb active" data-src="images/bottle-front.png" data-alt="Laibar Joint Support bottle — front view">
-                  <img src="images/bottle-front.png" alt="Front view thumbnail">
+              <div class="showcase-thumbs" id="detail-thumbs">
+                <button class="showcase-thumb active" data-src="images/no background bottle- front.png" data-alt="Laibar Joint Support bottle — front view">
+                  <img src="images/no background bottle- front.png" alt="Front view">
                 </button>
-                <button class="gallery-thumb" data-src="images/hf_20260326_032528_63db1b78-2cc7-41f3-b80e-966f78e44b7b.jpeg" data-alt="Hand holding Laibar Joint Support bottle in kitchen">
+                <button class="showcase-thumb" data-src="images/hf_20260326_032528_63db1b78-2cc7-41f3-b80e-966f78e44b7b.jpeg" data-alt="Hand holding Laibar Joint Support bottle">
                   <img src="images/hf_20260326_032528_63db1b78-2cc7-41f3-b80e-966f78e44b7b.jpeg" alt="Hand holding bottle">
                 </button>
-                <button class="gallery-thumb" data-src="images/hf_20260326_032556_0b4dfc91-9b29-4e65-bba1-c1b7cb51655c.jpeg" data-alt="Laibar capsules in palm with bottle">
-                  <img src="images/hf_20260326_032556_0b4dfc91-9b29-4e65-bba1-c1b7cb51655c.jpeg" alt="Capsules in palm">
-                </button>
-                <button class="gallery-thumb" data-src="images/hf_20260326_032458_8013ebc6-00ea-4750-b52a-db13af7ae865.jpeg" data-alt="Laibar Joint Support bundle — 1, 3, and 6 bottles">
+                <button class="showcase-thumb" data-src="images/hf_20260326_032458_8013ebc6-00ea-4750-b52a-db13af7ae865.jpeg" data-alt="Laibar Joint Support bundle — 1, 3, and 6 bottles">
                   <img src="images/hf_20260326_032458_8013ebc6-00ea-4750-b52a-db13af7ae865.jpeg" alt="Bundle display">
                 </button>
-                <button class="gallery-thumb" data-src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" data-alt="Laibar Joint Support with turmeric and yoga mat">
-                  <img src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" alt="Product with turmeric">
+                <button class="showcase-thumb" data-src="images/supplement-facts.png" data-alt="Supplement Facts label">
+                  <img src="images/supplement-facts.png" alt="Supplement Facts">
                 </button>
-                <button class="gallery-thumb" data-src="images/hf_20260326_001033_5a7def3f-29b3-4439-bed4-5588605aa631.jpeg" data-alt="Woman holding Laibar Joint Support bottle">
-                  <img src="images/hf_20260326_001033_5a7def3f-29b3-4439-bed4-5588605aa631.jpeg" alt="Lifestyle shot">
+                <button class="showcase-thumb" data-src="images/dose-info.png" data-alt="Suggested Use and Dosage Information">
+                  <img src="images/dose-info.png" alt="Dosage info">
+                </button>
+                <button class="showcase-thumb" data-src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" data-alt="Laibar Joint Support with turmeric and yoga mat">
+                  <img src="images/hf_20260326_034555_c5f929b2-5955-4f2e-89c9-817d0875f38a.jpeg" alt="Lifestyle">
                 </button>
               </div>
             </div>
@@ -205,17 +202,42 @@
             <h1 id="detail-name"></h1>
             <p class="product-tagline" id="detail-tagline"></p>
             <div class="product-rating" id="detail-rating"></div>
-            <div class="purchase-toggle" id="purchase-toggle">
+            <div class="bundle-selector" id="bundle-selector">
+              <label class="bundle-option" data-qty="1" data-price="64.99">
+                <input type="radio" name="bundle" value="1" checked>
+                <div class="bundle-card">
+                  <span class="bundle-qty">1 Bottle</span>
+                  <span class="bundle-price">$64.99</span>
+                  <span class="bundle-per">$64.99 / bottle</span>
+                </div>
+              </label>
+              <label class="bundle-option popular" data-qty="3" data-price="54.99">
+                <input type="radio" name="bundle" value="3">
+                <div class="bundle-card">
+                  <span class="bundle-badge">Most Popular</span>
+                  <span class="bundle-qty">3 Bottles</span>
+                  <span class="bundle-price">$164.97</span>
+                  <span class="bundle-per">$54.99 / bottle</span>
+                  <span class="bundle-save">Save 15%</span>
+                </div>
+              </label>
+              <label class="bundle-option" data-qty="6" data-price="47.99">
+                <input type="radio" name="bundle" value="6">
+                <div class="bundle-card">
+                  <span class="bundle-badge">Best Value</span>
+                  <span class="bundle-qty">6 Bottles</span>
+                  <span class="bundle-price">$287.94</span>
+                  <span class="bundle-per">$47.99 / bottle</span>
+                  <span class="bundle-save">Save 26%</span>
+                </div>
+              </label>
+            </div>
+            <div class="purchase-toggle" id="purchase-toggle" style="margin-top: 1rem;">
               <button class="toggle-btn active" data-mode="onetime">One-Time Purchase</button>
-              <button class="toggle-btn" data-mode="subscription">Subscribe & Save</button>
+              <button class="toggle-btn" data-mode="subscription">Subscribe & Save 12%</button>
             </div>
             <span class="save-badge" id="save-badge">SAVE 12%</span>
             <p class="product-price" id="detail-price"></p>
-            <div class="quantity-selector">
-              <button class="qty-btn" id="qty-minus">&minus;</button>
-              <input type="number" class="qty-input" id="qty-input" value="1" min="1" max="10">
-              <button class="qty-btn" id="qty-plus">+</button>
-            </div>
             <div class="add-to-cart-row">
               <button class="btn btn-primary btn-lg" id="add-to-cart-btn">Add to Cart</button>
             </div>
@@ -230,11 +252,9 @@
       <div class="container">
         <div class="tab-nav">
           <button class="tab-btn active" data-tab="description">Description</button>
-          <button class="tab-btn" data-tab="ingredients">Ingredients</button>
           <button class="tab-btn" data-tab="reviews">Reviews</button>
         </div>
         <div class="tab-panel active" id="tab-description"></div>
-        <div class="tab-panel" id="tab-ingredients"></div>
         <div class="tab-panel" id="tab-reviews"></div>
       </div>
     </section>
@@ -245,27 +265,27 @@
     <div class="container">
       <div class="trust-grid">
         <div class="trust-item">
-          <span class="trust-icon">&#x1F52C;</span>
+          <span class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6A066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
           12 Active Ingredients
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <span class="trust-icon">&#x1F1FA;&#x1F1F8;</span>
+          <span class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6A066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
           Made in USA
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <span class="trust-icon">&#x2705;</span>
+          <span class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6A066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
           Third-Party Tested
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <span class="trust-icon">&#x1F331;</span>
+          <span class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6A066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4.97 0 9-2.69 9-6v-2c0-3.31-4.03-6-9-6s-9 2.69-9 6v2c0 3.31 4.03 6 9 6z"/><path d="M12 14V8"/><circle cx="12" cy="5" r="3"/></svg></span>
           Non-GMO + Clean Label
         </div>
         <div class="trust-divider"></div>
         <div class="trust-item">
-          <span class="trust-icon">&#x1F4E6;</span>
+          <span class="trust-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6A066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
           Free Shipping
         </div>
       </div>

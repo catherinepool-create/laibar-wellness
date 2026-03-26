@@ -484,7 +484,7 @@ function initBundleSelector() {
   if (!selector) return;
 
   const options = selector.querySelectorAll('.bundle-option');
-  const priceDisplay = document.getElementById('showcase-price') || document.querySelector('.showcase-price');
+  const priceDisplay = document.getElementById('showcase-price') || document.getElementById('detail-price') || document.querySelector('.showcase-price');
 
   options.forEach(option => {
     option.addEventListener('click', () => {
@@ -560,7 +560,7 @@ function initProductDetail() {
   const breadcrumb = document.getElementById('detail-breadcrumb');
   if (breadcrumb) breadcrumb.innerHTML = `<a href="index.html">Home</a> &rsaquo; ${PRODUCT.name}`;
 
-  // Gallery is now in HTML — no JS override needed
+  // Gallery is now in HTML with showcase-image-gallery style
   const badgeEl = document.getElementById('detail-badge');
   if (badgeEl) { badgeEl.textContent = PRODUCT.badge; badgeEl.style.display = 'inline-block'; }
   document.getElementById('detail-name').textContent = PRODUCT.name;
@@ -569,16 +569,26 @@ function initProductDetail() {
   document.getElementById('detail-rating').innerHTML = `${renderStars(PRODUCT.rating)} <span class="review-count">(${PRODUCT.reviewCount} reviews)</span>`;
   document.getElementById('detail-meta').textContent = `${PRODUCT.servings} capsules | ${PRODUCT.supplyDays}-day supply`;
 
-  // Description tab
-  document.getElementById('tab-description').innerHTML = `<p>${PRODUCT.fullDescription}</p><p style="margin-top:1rem"><strong style="color:var(--gold)">Dosage:</strong> ${PRODUCT.dosage}</p><div class="product-label-images" style="display:flex;gap:1.5rem;margin-top:2rem;flex-wrap:wrap;"><div style="flex:1;min-width:200px;"><h4 style="color:var(--gold);margin-bottom:0.75rem;">Supplement Facts</h4><img src="images/supplement-facts.png" alt="Laibar Joint Support Supplement Facts Label" style="width:100%;border-radius:8px;border:1px solid rgba(198,160,102,0.2);" loading="lazy"></div><div style="flex:1;min-width:200px;"><h4 style="color:var(--gold);margin-bottom:0.75rem;">Suggested Use</h4><img src="images/dose-info.png" alt="Laibar Joint Support Dosage and Usage Information" style="width:100%;border-radius:8px;border:1px solid rgba(198,160,102,0.2);" loading="lazy"></div></div><p class="fda-disclaimer" style="margin-top:1.5rem;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">* These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>`;
+  // Init detail page gallery (same as showcase gallery but with detail IDs)
+  const detailThumbs = document.querySelectorAll('#detail-thumbs .showcase-thumb');
+  const detailMain = document.getElementById('detail-main');
+  if (detailThumbs.length && detailMain) {
+    detailThumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        detailThumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        detailMain.style.opacity = '0';
+        setTimeout(() => {
+          detailMain.src = thumb.dataset.src;
+          detailMain.alt = thumb.dataset.alt;
+          detailMain.style.opacity = '1';
+        }, 150);
+      });
+    });
+  }
 
-  // Ingredients tab
-  let ingredientsHTML = '<table class="ingredients-table"><thead><tr><th>Ingredient</th><th>Amount Per Serving</th></tr></thead><tbody>';
-  PRODUCT.ingredients.forEach(ing => {
-    ingredientsHTML += `<tr><td>${ing.name}</td><td>${ing.amount}</td></tr>`;
-  });
-  ingredientsHTML += '</tbody></table>';
-  document.getElementById('tab-ingredients').innerHTML = ingredientsHTML;
+  // Description tab — no supplement facts images here since they're in the gallery
+  document.getElementById('tab-description').innerHTML = `<p>${PRODUCT.fullDescription}</p><p style="margin-top:1rem"><strong style="color:var(--gold)">Dosage:</strong> ${PRODUCT.dosage}</p><p class="fda-disclaimer" style="margin-top:1.5rem;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">* These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>`;
 
   // Reviews tab
   document.getElementById('tab-reviews').innerHTML = PRODUCT.reviews.map(r => `
@@ -592,15 +602,12 @@ function initProductDetail() {
     </div>
   `).join('');
 
-  // Quantity selector
-  let qty = 1;
-  const qtyInput = document.getElementById('qty-input');
-  document.getElementById('qty-minus').addEventListener('click', () => { qty = Math.max(1, qty - 1); qtyInput.value = qty; });
-  document.getElementById('qty-plus').addEventListener('click', () => { qty = Math.min(10, qty + 1); qtyInput.value = qty; });
-  qtyInput.addEventListener('change', () => { qty = Math.max(1, Math.min(10, parseInt(qtyInput.value) || 1)); qtyInput.value = qty; });
-
-  // Add to cart
-  document.getElementById('add-to-cart-btn').addEventListener('click', () => addToCart(PRODUCT.id, qty));
+  // Add to cart — uses bundle quantity
+  document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+    for (let i = 0; i < selectedBundle.qty; i++) {
+      addToCart(PRODUCT.id);
+    }
+  });
 
   // Tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -612,8 +619,9 @@ function initProductDetail() {
     });
   });
 
-  // Subscribe toggle
+  // Subscribe toggle & bundle selector
   initSubscribeToggle();
+  initBundleSelector();
 }
 
 // --- Cart Page ---
