@@ -801,10 +801,269 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   position: relative;
   z-index: 1;
 }
+.testimonial-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+}
+.testimonial-author-info {
+  display: flex;
+  flex-direction: column;
+}
 .testimonial-author {
   font-weight: 700;
   color: var(--text-primary);
   font-size: 0.9rem;
+}
+.testimonial-verified {
+  font-size: 0.75rem;
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.testimonial-verified svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Lifestyle Gallery --- */
+.lifestyle-gallery {
+  padding: var(--space-xl) 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.lifestyle-gallery h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.lifestyle-gallery .section-subtitle {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 0.75rem;
+}
+.gallery-item {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+.gallery-item.wide {
+  grid-column: span 2;
+  aspect-ratio: 2/1;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+.gallery-overlay span {
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* --- Bundle Selector --- */
+.bundle-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.bundle-option {
+  cursor: pointer;
+}
+.bundle-option input[type="radio"] {
+  display: none;
+}
+.bundle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  background: var(--bg-tertiary);
+  transition: all var(--transition-base);
+  text-align: center;
+  position: relative;
+}
+.bundle-option input:checked + .bundle-card {
+  border-color: var(--gold);
+  background: rgba(200, 165, 90, 0.08);
+  box-shadow: var(--shadow-gold);
+}
+.bundle-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--bg-primary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.bundle-qty {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+.bundle-price {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+.bundle-per {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.bundle-save {
+  font-size: 0.7rem;
+  color: var(--success);
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* --- Comparison Table --- */
+.comparison-section {
+  padding: var(--space-xl) 0;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.comparison-section .section-subtitle {
+  margin-bottom: var(--space-lg);
+}
+.comparison-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 600px;
+}
+.comparison-table thead th {
+  background: var(--bg-tertiary);
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border);
+}
+.comparison-table thead th:first-child {
+  text-align: left;
+}
+.comparison-table thead th.highlight-col {
+  background: rgba(200, 165, 90, 0.12);
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.comparison-table tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+  text-align: center;
+  color: var(--text-secondary);
+}
+.comparison-table tbody td:first-child {
+  text-align: left;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.comparison-table tbody td.highlight-col {
+  background: rgba(200, 165, 90, 0.05);
+  color: var(--text-primary);
+}
+.comparison-table tbody tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+.check-yes {
+  color: var(--success);
+  font-weight: 700;
+}
+.check-no {
+  color: var(--error);
+  opacity: 0.7;
+}
+.check-partial {
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+
+/* --- Lifestyle Image Band --- */
+.lifestyle-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.lifestyle-band-item {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+.lifestyle-band-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lifestyle-band-item .band-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, rgba(0,0,0,0.6));
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+.lifestyle-band-item .band-overlay p {
+  color: var(--white);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  margin: 0;
 }
 .testimonial-stars {
   color: var(--gold);
@@ -1905,6 +2164,9 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   .checkout-layout { grid-template-columns: 1fr 320px; }
   .quality-grid { grid-template-columns: repeat(2, 1fr); }
   .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-item.wide { grid-column: span 1; aspect-ratio: 1; }
+  .lifestyle-band-item { height: 320px; }
 }
 
 @media (max-width: 768px) {
@@ -1949,6 +2211,12 @@ p { margin-bottom: var(--space-sm); color: var(--text-secondary); }
   .trust-item { font-size: 0.75rem; }
   .promise-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
   .showcase-layout { grid-template-columns: 1fr; }
+  .bundle-selector { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .bundle-price { font-size: 1rem; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item.wide { grid-column: span 2; aspect-ratio: 2/1; }
+  .lifestyle-band { grid-template-columns: 1fr; }
+  .lifestyle-band-item { height: 280px; }
   .brand-story-content { grid-template-columns: 1fr; }
   .brand-story-visual { height: 250px; }
   .testimonial-grid { grid-template-columns: 1fr; }

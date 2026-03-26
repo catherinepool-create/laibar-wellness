@@ -171,17 +171,64 @@
             <img src="images/supplement-facts.png" alt="Laibar Joint Support Supplement Facts Label" style="width:48%;border-radius:6px;border:1px solid rgba(198,160,102,0.15);" loading="lazy">
             <img src="images/dose-info.png" alt="Laibar Joint Support Dosage Information" style="width:48%;border-radius:6px;border:1px solid rgba(198,160,102,0.15);" loading="lazy">
           </div>
-          <div class="purchase-toggle" id="purchase-toggle">
-            <button class="toggle-btn active" data-mode="onetime">One-Time — $64.99</button>
-            <button class="toggle-btn" data-mode="subscription">Subscribe — $57.19/mo</button>
+          <div class="bundle-selector" id="bundle-selector">
+            <label class="bundle-option" data-qty="1" data-price="64.99">
+              <input type="radio" name="bundle" value="1" checked>
+              <div class="bundle-card">
+                <span class="bundle-qty">1 Bottle</span>
+                <span class="bundle-price">$64.99</span>
+                <span class="bundle-per">$64.99 / bottle</span>
+              </div>
+            </label>
+            <label class="bundle-option popular" data-qty="3" data-price="54.99">
+              <input type="radio" name="bundle" value="3">
+              <div class="bundle-card">
+                <span class="bundle-badge">Most Popular</span>
+                <span class="bundle-qty">3 Bottles</span>
+                <span class="bundle-price">$164.97</span>
+                <span class="bundle-per">$54.99 / bottle</span>
+                <span class="bundle-save">Save 15%</span>
+              </div>
+            </label>
+            <label class="bundle-option" data-qty="6" data-price="47.99">
+              <input type="radio" name="bundle" value="6">
+              <div class="bundle-card">
+                <span class="bundle-badge">Best Value</span>
+                <span class="bundle-qty">6 Bottles</span>
+                <span class="bundle-price">$287.94</span>
+                <span class="bundle-per">$47.99 / bottle</span>
+                <span class="bundle-save">Save 26%</span>
+              </div>
+            </label>
+          </div>
+          <div class="purchase-toggle" id="purchase-toggle" style="margin-top: 1rem;">
+            <button class="toggle-btn active" data-mode="onetime">One-Time Purchase</button>
+            <button class="toggle-btn" data-mode="subscription">Subscribe & Save 12%</button>
           </div>
           <span class="save-badge" id="save-badge">SAVE 12%</span>
-          <p class="showcase-price">$64.99</p>
+          <p class="showcase-price" id="showcase-price">$64.99</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: -0.5rem;">Free shipping on orders $75+</p>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
             <a href="product-detail.html?id=1" class="btn btn-primary btn-lg">View Full Details</a>
             <button class="btn btn-secondary" id="home-add-to-cart">Add to Cart</button>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lifestyle Image Band -->
+  <section class="lifestyle-band">
+    <div class="lifestyle-band-item">
+      <img src="images/hf_20260325_221958_15ebc810-04f8-4331-a0f3-26df7feda3d9.jpeg" alt="Laibar Joint Support bottle in natural sunlight" loading="lazy">
+      <div class="band-overlay">
+        <p>Crafted for Your Daily Ritual</p>
+      </div>
+    </div>
+    <div class="lifestyle-band-item">
+      <img src="images/hf_20260325_230424_89c6694b-7b69-463b-b056-3b130e909238.jpeg" alt="Woman enjoying breakfast with Laibar Joint Support" loading="lazy">
+      <div class="band-overlay">
+        <p>Start Every Morning Right</p>
       </div>
     </div>
   </section>
@@ -250,76 +297,285 @@
     </div>
   </section>
 
+  <!-- Comparison Chart -->
+  <section class="comparison-section">
+    <div class="container">
+      <h2 class="text-center fade-in">How We <span class="gold-text">Compare</span></h2>
+      <p class="section-subtitle fade-in" style="text-align:center;">Transparent doses. More ingredients. Real results.</p>
+      <div class="comparison-table-wrap fade-in">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Ingredient</th>
+              <th class="highlight-col">Laibar Joint Support</th>
+              <th>Move Free Advanced</th>
+              <th>Osteo Bi-Flex</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Total Active Ingredients</td>
+              <td class="highlight-col"><strong>12</strong></td>
+              <td>3-4</td>
+              <td>3-5</td>
+            </tr>
+            <tr>
+              <td>Turmeric / Curcumin</td>
+              <td class="highlight-col"><strong>900mg</strong> (95% curcuminoids)</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Glucosamine</td>
+              <td class="highlight-col"><strong>100mg</strong></td>
+              <td>Proprietary blend</td>
+              <td>1,500mg</td>
+            </tr>
+            <tr>
+              <td>Chondroitin</td>
+              <td class="highlight-col"><strong>100mg</strong></td>
+              <td>Proprietary blend</td>
+              <td>200mg</td>
+            </tr>
+            <tr>
+              <td>Collagen Type II</td>
+              <td class="highlight-col"><strong>100mg</strong></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Hyaluronic Acid</td>
+              <td class="highlight-col"><strong>100mg</strong></td>
+              <td>Proprietary blend</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Boswellia Serrata</td>
+              <td class="highlight-col"><strong>80mg</strong></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>MSM</td>
+              <td class="highlight-col"><strong>25mg</strong></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Black Pepper (Piperine)</td>
+              <td class="highlight-col"><strong>5mg</strong></td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>Transparent Dosing</td>
+              <td class="highlight-col"><span class="check-yes">&#10003;</span></td>
+              <td><span class="check-no">&#10007;</span> Proprietary blend</td>
+              <td><span class="check-partial">Partial</span></td>
+            </tr>
+            <tr>
+              <td>Multi-Pathway Approach</td>
+              <td class="highlight-col"><span class="check-yes">&#10003;</span> 4 pathways</td>
+              <td><span class="check-no">&#10007;</span></td>
+              <td><span class="check-no">&#10007;</span></td>
+            </tr>
+            <tr>
+              <td>Third-Party Tested</td>
+              <td class="highlight-col"><span class="check-yes">&#10003;</span></td>
+              <td><span class="check-yes">&#10003;</span></td>
+              <td><span class="check-yes">&#10003;</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <!-- Reviews Marquee -->
   <section class="testimonials">
     <div class="container">
       <h2 class="text-center fade-in">Real <span class="gold-text">Results</span></h2>
     </div>
+    <p class="section-subtitle fade-in" style="text-align:center;">4.8 out of 5 &mdash; Based on 1,247 reviews</p>
     <div class="reviews-marquee" style="margin-top: 2rem">
       <div class="reviews-marquee-track">
         <div class="reviews-marquee-content">
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;I'm 42 and train 5x a week. This is the first joint supplement that actually keeps up with my lifestyle. Felt a real difference by week three.&rdquo;</p>
-            <p class="testimonial-author">Marcus T. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260325_225946_5776def3-9cef-4934-acb1-ba8c9dc5f007.jpeg" alt="Marcus T." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Marcus T.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Love the transparent labeling. I can see exactly what I'm taking and at what dose. No proprietary blend nonsense. My morning runs feel smoother.&rdquo;</p>
-            <p class="testimonial-author">Sarah K. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260325_230125_b6005642-4a4f-496f-8e2b-f7050607081c.jpeg" alt="Sarah K." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Sarah K.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Finally a supplement brand that doesn't treat joint health like it's only for seniors. Modern brand, serious formula. Highly recommend.&rdquo;</p>
-            <p class="testimonial-author">David R. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000310_4d08d21c-2945-49a8-ac9a-4d54ecd0baab.jpeg" alt="David R." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">David R.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Switched from a big-name brand and the difference is night and day. The turmeric complex with black pepper for absorption is a game changer. Quality product.&rdquo;</p>
-            <p class="testimonial-author">James W. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000207_4b4c4c1d-0039-408d-9541-531a9dd5479e.jpeg" alt="James W." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">James W.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
             <p class="testimonial-text">&ldquo;Takes a couple weeks to fully kick in, but once it does &mdash; wow. My yoga practice has never felt better. Clean ingredients, no stomach issues.&rdquo;</p>
-            <p class="testimonial-author">Andrea L. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000225_36d60e65-75a1-4b82-897e-046b4ddcc391.jpeg" alt="Andrea L." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Andrea L.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;The multi-action approach makes so much sense. One bottle covers what used to take me three separate supplements. And it actually works.&rdquo;</p>
-            <p class="testimonial-author">Michelle P. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000324_1be22ebc-9225-423c-99da-fec72d46441e.jpeg" alt="Michelle P." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Michelle P.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="reviews-marquee-content" aria-hidden="true">
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;I'm 42 and train 5x a week. This is the first joint supplement that actually keeps up with my lifestyle. Felt a real difference by week three.&rdquo;</p>
-            <p class="testimonial-author">Marcus T. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260325_225946_5776def3-9cef-4934-acb1-ba8c9dc5f007.jpeg" alt="Marcus T." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Marcus T.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Love the transparent labeling. I can see exactly what I'm taking and at what dose. No proprietary blend nonsense. My morning runs feel smoother.&rdquo;</p>
-            <p class="testimonial-author">Sarah K. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260325_230125_b6005642-4a4f-496f-8e2b-f7050607081c.jpeg" alt="Sarah K." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Sarah K.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Finally a supplement brand that doesn't treat joint health like it's only for seniors. Modern brand, serious formula. Highly recommend.&rdquo;</p>
-            <p class="testimonial-author">David R. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000310_4d08d21c-2945-49a8-ac9a-4d54ecd0baab.jpeg" alt="David R." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">David R.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;Switched from a big-name brand and the difference is night and day. The turmeric complex with black pepper for absorption is a game changer. Quality product.&rdquo;</p>
-            <p class="testimonial-author">James W. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000207_4b4c4c1d-0039-408d-9541-531a9dd5479e.jpeg" alt="James W." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">James W.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
             <p class="testimonial-text">&ldquo;Takes a couple weeks to fully kick in, but once it does &mdash; wow. My yoga practice has never felt better. Clean ingredients, no stomach issues.&rdquo;</p>
-            <p class="testimonial-author">Andrea L. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000225_36d60e65-75a1-4b82-897e-046b4ddcc391.jpeg" alt="Andrea L." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Andrea L.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
           <div class="testimonial-card">
             <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="testimonial-text">&ldquo;The multi-action approach makes so much sense. One bottle covers what used to take me three separate supplements. And it actually works.&rdquo;</p>
-            <p class="testimonial-author">Michelle P. &mdash; Verified Buyer</p>
+            <div class="testimonial-author-row">
+              <img src="images/hf_20260326_000324_1be22ebc-9225-423c-99da-fec72d46441e.jpeg" alt="Michelle P." class="testimonial-avatar" loading="lazy">
+              <div class="testimonial-author-info">
+                <span class="testimonial-author">Michelle P.</span>
+                <span class="testimonial-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verified Buyer</span>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lifestyle Gallery -->
+  <section class="lifestyle-gallery">
+    <div class="container">
+      <h2 class="fade-in">The Laibar <span class="gold-text">Lifestyle</span></h2>
+      <p class="section-subtitle fade-in">Real people. Real movement. Powered by real ingredients.</p>
+      <div class="gallery-grid fade-in">
+        <div class="gallery-item wide">
+          <img src="images/hf_20260325_225228_46b4755a-4062-482b-a5d5-714cd712081a.jpeg" alt="Woman starting her morning with Laibar Joint Support" loading="lazy">
+          <div class="gallery-overlay"><span>Morning Wellness</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260325_225448_bfd99945-2ad4-4379-8fad-7e1a90305f9c.png" alt="Yoga at sunset with Laibar supplement nearby" loading="lazy">
+          <div class="gallery-overlay"><span>Sunset Flow</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260325_225630_b7bba56b-73bc-49f6-a595-5eb2cc0492cf.png" alt="Laibar Joint Support with natural ingredients flat lay" loading="lazy">
+          <div class="gallery-overlay"><span>Nature's Formula</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260325_230104_ed8d75b8-7853-4eb5-bc91-c52d2ebe4720.jpeg" alt="Woman practicing yoga with ocean view" loading="lazy">
+          <div class="gallery-overlay"><span>Flexible Living</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260326_000310_ccf47c50-86cd-446b-af3e-710635ce8982.jpeg" alt="Man hiking mountain trail" loading="lazy">
+          <div class="gallery-overlay"><span>Trail Ready</span></div>
+        </div>
+        <div class="gallery-item wide">
+          <img src="images/hf_20260325_230807_3ad4ce1a-1f0c-44f3-922d-9c2619737ba6.jpeg" alt="Woman in kitchen with Laibar Joint Support supplement" loading="lazy">
+          <div class="gallery-overlay"><span>Daily Ritual</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260325_230125_e4077c26-82fd-4d39-a0ce-ad592b469ba5.jpeg" alt="Woman running on coastal trail at golden hour" loading="lazy">
+          <div class="gallery-overlay"><span>Active Life</span></div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/hf_20260326_000225_56a0fb22-6dfd-4dc9-86b5-2f772234db33.jpeg" alt="Woman doing triangle yoga pose outdoors" loading="lazy">
+          <div class="gallery-overlay"><span>Move Freely</span></div>
         </div>
       </div>
     </div>

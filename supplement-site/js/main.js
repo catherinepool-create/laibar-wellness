@@ -362,13 +362,62 @@ function initSubscribeToggle() {
   updateMode('onetime');
 }
 
+// --- Bundle Selector ---
+let selectedBundle = { qty: 1, pricePerBottle: 64.99 };
+
+function initBundleSelector() {
+  const selector = document.getElementById('bundle-selector');
+  if (!selector) return;
+
+  const options = selector.querySelectorAll('.bundle-option');
+  const priceDisplay = document.getElementById('showcase-price') || document.querySelector('.showcase-price');
+
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      const qty = parseInt(option.dataset.qty);
+      const price = parseFloat(option.dataset.price);
+      selectedBundle = { qty, pricePerBottle: price };
+      updateBundlePrice();
+    });
+  });
+
+  function updateBundlePrice() {
+    const total = selectedBundle.qty * selectedBundle.pricePerBottle;
+    const isSubscription = purchaseMode === 'subscription';
+    const displayPrice = isSubscription ? (total * 0.88).toFixed(2) : total.toFixed(2);
+
+    if (priceDisplay) {
+      if (isSubscription) {
+        priceDisplay.innerHTML = `$${displayPrice}<span class="price-interval">/month</span>`;
+      } else {
+        priceDisplay.textContent = `$${displayPrice}`;
+      }
+    }
+  }
+
+  // Override the subscribe toggle to also account for bundle pricing
+  const toggle = document.getElementById('purchase-toggle');
+  if (toggle) {
+    toggle.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTimeout(updateBundlePrice, 10);
+      });
+    });
+  }
+}
+
 // --- Home Page ---
 function initHomePage() {
   const addBtn = document.getElementById('home-add-to-cart');
   if (addBtn) {
-    addBtn.addEventListener('click', () => addToCart(PRODUCT.id));
+    addBtn.addEventListener('click', () => {
+      for (let i = 0; i < selectedBundle.qty; i++) {
+        addToCart(PRODUCT.id);
+      }
+    });
   }
   initSubscribeToggle();
+  initBundleSelector();
 }
 
 // --- Product Detail ---
