@@ -86,6 +86,12 @@ function addToCart(productId, quantity = 1) {
   saveCartMode(purchaseMode);
   updateCartBadge();
   showToast('Added to cart', 'success');
+
+  // Pixel tracking — AddToCart event
+  const price = getCurrentPrice();
+  if (typeof fbq === 'function') fbq('track', 'AddToCart', { content_name: PRODUCT.name, content_ids: [productId], content_type: 'product', value: price * quantity, currency: 'USD' });
+  if (typeof gtag === 'function') gtag('event', 'add_to_cart', { currency: 'USD', value: price * quantity, items: [{ item_id: productId, item_name: PRODUCT.name, price: price, quantity: quantity }] });
+  if (typeof ttq === 'object') ttq.track('AddToCart', { content_id: productId, content_name: PRODUCT.name, quantity: quantity, price: price, value: price * quantity, currency: 'USD' });
 }
 
 function removeFromCart(productId) {
@@ -142,6 +148,12 @@ async function initiateStripeCheckout() {
     price: price,
     quantity: item.quantity,
   }));
+
+  // Pixel tracking — InitiateCheckout event
+  const totalValue = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  if (typeof fbq === 'function') fbq('track', 'InitiateCheckout', { value: totalValue, currency: 'USD', num_items: items.length });
+  if (typeof gtag === 'function') gtag('event', 'begin_checkout', { currency: 'USD', value: totalValue, items: items.map(i => ({ item_name: i.name, price: i.price, quantity: i.quantity })) });
+  if (typeof ttq === 'object') ttq.track('InitiateCheckout', { value: totalValue, currency: 'USD' });
 
   // Set loading state on checkout buttons
   document.querySelectorAll('.btn-checkout').forEach(btn => {
