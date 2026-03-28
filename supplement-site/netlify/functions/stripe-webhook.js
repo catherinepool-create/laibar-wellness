@@ -1,5 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { Resend } = require("resend");
+const { sendPostPurchaseSequence } = require("./post-purchase-emails");
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -86,6 +87,13 @@ async function handleCheckoutComplete(session) {
   // Server-side Conversions API — Meta Pixel Purchase event
   if (process.env.META_PIXEL_ID && process.env.META_ACCESS_TOKEN) {
     await sendMetaConversionEvent(order, session);
+  }
+
+  // Post-purchase drip email sequence (Day 3, 14, 25, 30)
+  try {
+    await sendPostPurchaseSequence(order);
+  } catch (err) {
+    console.error("Post-purchase sequence error:", err);
   }
 }
 
