@@ -212,6 +212,31 @@ function showToast(message, type = 'success') {
   }, 3000);
 }
 
+// --- Customer Portal (Subscription Management) ---
+async function openCustomerPortal(e) {
+  e.preventDefault();
+  const email = prompt('Enter the email address associated with your subscription:');
+  if (!email) return;
+
+  showToast('Loading subscription portal...', 'success');
+
+  try {
+    const response = await fetch('/api/customer-portal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.trim() }),
+    });
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      showToast(data.error || 'Could not find your subscription.', 'error');
+    }
+  } catch (err) {
+    showToast('Something went wrong. Please try again.', 'error');
+  }
+}
+
 // --- Scroll Animations ---
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
@@ -461,6 +486,12 @@ function renderStars(rating) {
   return '\u2605'.repeat(full) + (half ? '\u00BD' : '') + '\u2606'.repeat(empty);
 }
 
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 // --- Subscribe Toggle ---
 function initSubscribeToggle() {
   const toggle = document.getElementById('purchase-toggle');
@@ -609,8 +640,8 @@ function initProductDetail() {
   // Description tab — no supplement facts images here since they're in the gallery
   document.getElementById('tab-description').innerHTML = `<p>${PRODUCT.fullDescription}</p><p style="margin-top:1rem"><strong style="color:var(--gold)">Dosage:</strong> ${PRODUCT.dosage}</p><p class="fda-disclaimer" style="margin-top:1.5rem;font-size:0.75rem;color:var(--text-secondary);line-height:1.5;">* These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>`;
 
-  // Reviews tab
-  document.getElementById('tab-reviews').innerHTML = PRODUCT.reviews.map(r => `
+  // Reviews tab — existing reviews + submission form
+  const reviewsHTML = PRODUCT.reviews.map(r => `
     <div class="review-item">
       <div class="review-stars">${renderStars(r.rating)}</div>
       <div class="review-header">
@@ -620,6 +651,137 @@ function initProductDetail() {
       <p class="review-text">${r.text}</p>
     </div>
   `).join('');
+
+  // Load any user-submitted reviews from localStorage
+  const savedReviews = JSON.parse(localStorage.getItem('laibar_user_reviews') || '[]');
+  const userReviewsHTML = savedReviews.map(r => `
+    <div class="review-item" style="border-left:3px solid var(--gold);padding-left:1rem;">
+      <div class="review-stars">${renderStars(r.rating)}</div>
+      <div class="review-header">
+        <span class="review-author">${escapeHtml(r.name)}</span>
+        <span class="review-date">${new Date(r.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+      </div>
+      <p class="review-text">${escapeHtml(r.text)}</p>
+    </div>
+  `).join('');
+
+  document.getElementById('tab-reviews').innerHTML = `
+    ${reviewsHTML}
+    ${userReviewsHTML}
+    <div class="review-form-section" style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);">
+      <h3 style="color:var(--gold);margin-bottom:1rem;">Write a Review</h3>
+      <form id="review-form" class="review-form">
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;">
+            <label style="display:block;margin-bottom:0.25rem;font-size:0.85rem;color:var(--text-secondary);">Your Name</label>
+            <input type="text" id="review-name" placeholder="First name & last initial" required style="width:100%;padding:0.75rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:0.95rem;">
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <label style="display:block;margin-bottom:0.25rem;font-size:0.85rem;color:var(--text-secondary);">Email (not published)</label>
+            <input type="email" id="review-email" placeholder="your@email.com" required style="width:100%;padding:0.75rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:0.95rem;">
+          </div>
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="display:block;margin-bottom:0.25rem;font-size:0.85rem;color:var(--text-secondary);">Rating</label>
+          <div class="review-star-select" id="review-star-select" style="font-size:1.5rem;cursor:pointer;color:var(--text-muted);">
+            <span data-star="1">\u2606</span><span data-star="2">\u2606</span><span data-star="3">\u2606</span><span data-star="4">\u2606</span><span data-star="5">\u2606</span>
+          </div>
+          <input type="hidden" id="review-rating" value="0">
+        </div>
+        <div style="margin-top:1rem;">
+          <label style="display:block;margin-bottom:0.25rem;font-size:0.85rem;color:var(--text-secondary);">Your Review</label>
+          <textarea id="review-text" placeholder="How has Laibar Joint Support helped you?" required rows="4" style="width:100%;padding:0.75rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);font-size:0.95rem;resize:vertical;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Submit Review</button>
+      </form>
+    </div>
+  `;
+
+  // Star rating click handler
+  const starSelect = document.getElementById('review-star-select');
+  const ratingInput = document.getElementById('review-rating');
+  if (starSelect) {
+    starSelect.querySelectorAll('[data-star]').forEach(star => {
+      star.addEventListener('click', () => {
+        const val = parseInt(star.dataset.star);
+        ratingInput.value = val;
+        starSelect.querySelectorAll('[data-star]').forEach(s => {
+          s.textContent = parseInt(s.dataset.star) <= val ? '\u2605' : '\u2606';
+          s.style.color = parseInt(s.dataset.star) <= val ? 'var(--gold)' : 'var(--text-muted)';
+        });
+      });
+      star.addEventListener('mouseenter', () => {
+        const val = parseInt(star.dataset.star);
+        starSelect.querySelectorAll('[data-star]').forEach(s => {
+          s.style.color = parseInt(s.dataset.star) <= val ? 'var(--gold)' : 'var(--text-muted)';
+        });
+      });
+    });
+    starSelect.addEventListener('mouseleave', () => {
+      const current = parseInt(ratingInput.value);
+      starSelect.querySelectorAll('[data-star]').forEach(s => {
+        s.style.color = parseInt(s.dataset.star) <= current ? 'var(--gold)' : 'var(--text-muted)';
+      });
+    });
+  }
+
+  // Review form submission
+  const reviewForm = document.getElementById('review-form');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rating = parseInt(ratingInput.value);
+      if (rating === 0) { showToast('Please select a star rating', 'error'); return; }
+
+      const reviewData = {
+        name: document.getElementById('review-name').value.trim(),
+        email: document.getElementById('review-email').value.trim(),
+        rating,
+        text: document.getElementById('review-text').value.trim(),
+        date: new Date().toISOString().split('T')[0],
+      };
+
+      // Save to localStorage
+      const reviews = JSON.parse(localStorage.getItem('laibar_user_reviews') || '[]');
+      reviews.push(reviewData);
+      localStorage.setItem('laibar_user_reviews', JSON.stringify(reviews));
+
+      // Send review via email notification
+      try {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'review',
+            name: reviewData.name,
+            email: reviewData.email,
+            rating: reviewData.rating,
+            message: reviewData.text,
+          }),
+        });
+      } catch (err) { console.error('Review email error:', err); }
+
+      showToast('Thank you for your review!', 'success');
+      reviewForm.reset();
+      ratingInput.value = '0';
+      starSelect.querySelectorAll('[data-star]').forEach(s => { s.textContent = '\u2606'; s.style.color = 'var(--text-muted)'; });
+
+      // Add the review to the page immediately
+      const newReviewEl = document.createElement('div');
+      newReviewEl.className = 'review-item';
+      newReviewEl.style.borderLeft = '3px solid var(--gold)';
+      newReviewEl.style.paddingLeft = '1rem';
+      newReviewEl.innerHTML = `
+        <div class="review-stars">${renderStars(reviewData.rating)}</div>
+        <div class="review-header">
+          <span class="review-author">${escapeHtml(reviewData.name)}</span>
+          <span class="review-date">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+        </div>
+        <p class="review-text">${escapeHtml(reviewData.text)}</p>
+      `;
+      document.querySelector('.review-form-section').insertAdjacentElement('beforebegin', newReviewEl);
+    });
+  }
 
   // Add to cart — uses bundle quantity
   document.getElementById('add-to-cart-btn').addEventListener('click', () => {

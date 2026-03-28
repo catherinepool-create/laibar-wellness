@@ -15,10 +15,14 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { to, subject, type, data } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    const { subject, type } = body;
+    // Support both { to, data } format and flat { email, name, message } format
+    const to = body.to || body.email;
+    const data = body.data || body;
 
-    if (!to || !type) {
-      return respond(400, { error: "Missing required fields: to, type" });
+    if (!type) {
+      return respond(400, { error: "Missing required field: type" });
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY);
@@ -46,6 +50,18 @@ exports.handler = async (event) => {
         await resend.emails.send({
           from: "Laibar Wellness <hello@laibarwellness.com>",
           to,
+          subject: emailSubject,
+          html,
+        });
+        break;
+
+      case "review":
+        emailSubject = `New ${data.rating}-Star Review from ${escapeHtml(data.name)}`;
+        html = buildReviewNotificationEmail(data);
+        await resend.emails.send({
+          from: "Laibar Wellness <noreply@laibarwellness.com>",
+          to: "support@laibarwellness.com",
+          replyTo: to,
           subject: emailSubject,
           html,
         });
@@ -89,6 +105,22 @@ function buildWelcomeEmail(data) {
       <a href="${process.env.URL || "https://laibarwellness.com"}/product-detail.html?id=1" style="display:inline-block;background:#c8a55a;color:#0a0a0a;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:600">Shop Now</a>
     </div>
   </div>
+</div>`;
+}
+
+function buildReviewNotificationEmail(data) {
+  const stars = "★".repeat(data.rating || 0) + "☆".repeat(5 - (data.rating || 0));
+  return `
+<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#0a0a0a;color:#f0ece4">
+  <h2 style="color:#c8a55a">New Customer Review</h2>
+  <div style="background:#141414;border:1px solid rgba(200,165,90,0.12);border-radius:8px;padding:24px;margin:16px 0">
+    <p style="color:#c8a55a;font-size:1.5rem;margin:0 0 8px">${stars}</p>
+    <p><strong>From:</strong> ${escapeHtml(data.name)} (${escapeHtml(data.email)})</p>
+    <p><strong>Rating:</strong> ${data.rating}/5</p>
+    <p><strong>Review:</strong></p>
+    <p style="color:#a8a49c;line-height:1.6;font-style:italic">"${escapeHtml(data.message)}"</p>
+  </div>
+  <p style="color:#6b6760;font-size:12px">This review was submitted on the product page. To add it permanently, update the reviews in main.js.</p>
 </div>`;
 }
 
