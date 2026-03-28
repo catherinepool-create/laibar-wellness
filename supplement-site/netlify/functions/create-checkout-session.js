@@ -11,7 +11,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { items, mode, customerEmail } = JSON.parse(event.body);
+    const { items, mode, customerEmail, bundleSize } = JSON.parse(event.body);
 
     if (!items || !items.length) {
       return respond(400, { error: "No items provided" });
@@ -20,20 +20,15 @@ exports.handler = async (event) => {
     const isSubscription = mode === "subscription";
     const siteUrl = process.env.URL || "http://localhost:8888";
 
+    // Resolve the correct Stripe Price ID based on bundle size
+    const priceId = resolvePriceId(isSubscription, bundleSize || 1);
+
     // Build line items
     const lineItems = items.map((item) => {
-      if (isSubscription && process.env.STRIPE_PRICE_SUBSCRIPTION) {
-        // Use pre-created Stripe Price for subscriptions
+      if (priceId) {
+        // Use pre-created Stripe Price ID
         return {
-          price: process.env.STRIPE_PRICE_SUBSCRIPTION,
-          quantity: item.quantity,
-        };
-      }
-
-      if (!isSubscription && process.env.STRIPE_PRICE_ONETIME) {
-        // Use pre-created Stripe Price for one-time
-        return {
-          price: process.env.STRIPE_PRICE_ONETIME,
+          price: priceId,
           quantity: item.quantity,
         };
       }
@@ -117,6 +112,7 @@ exports.handler = async (event) => {
       metadata: {
         source: "laibar-website",
         mode: isSubscription ? "subscription" : "one-time",
+        bundleSize: String(bundleSize || 1),
       },
     };
 
@@ -128,6 +124,39 @@ exports.handler = async (event) => {
     return respond(500, { error: err.message });
   }
 };
+
+/**
+ * Resolve the correct Stripe Price ID based on subscription mode and bundle size.
+ *
+ * Environment variables to set in Netlify:
+ *   STRIPE_PRICE_ONETIME        — 1 bottle one-time (fallback)
+ *   STRIPE_PRICE_SUBSCRIPTION   — 1 bottle subscription (fallback)
+ *   STRIPE_PRICE_1BOTTLE        — 1 bottle one-time
+ *   STRIPE_PRICE_3BUNDLE        — 3 bottles one-time ($54.99/ea)
+ *   STRIPE_PRICE_6BUNDLE        — 6 bottles one-time ($47.99/ea)
+ *   STRIPE_PRICE_1BOTTLE_SUB    — 1 bottle subscription
+ *   STRIPE_PRICE_3BUNDLE_SUB    — 3 bottles subscription
+ *   STRIPE_PRICE_6BUNDLE_SUB    — 6 bottles subscription
+ */
+function resolvePriceId(isSubscription, bundleSize) {
+  if (isSubscription) {
+    if (bundleSize >= 6 && process.env.STRIPE_PRICE_6BUNDLE_SUB)
+      return process.env.STRIPE_PRICE_6BUNDLE_SUB;
+    if (bundleSize >= 3 && process.env.STRIPE_PRICE_3BUNDLE_SUB)
+      return process.env.STRIPE_PRICE_3BUNDLE_SUB;
+    if (process.env.STRIPE_PRICE_1BOTTLE_SUB)
+      return process.env.STRIPE_PRICE_1BOTTLE_SUB;
+    return process.env.STRIPE_PRICE_SUBSCRIPTION || null;
+  }
+
+  if (bundleSize >= 6 && process.env.STRIPE_PRICE_6BUNDLE)
+    return process.env.STRIPE_PRICE_6BUNDLE;
+  if (bundleSize >= 3 && process.env.STRIPE_PRICE_3BUNDLE)
+    return process.env.STRIPE_PRICE_3BUNDLE;
+  if (process.env.STRIPE_PRICE_1BOTTLE)
+    return process.env.STRIPE_PRICE_1BOTTLE;
+  return process.env.STRIPE_PRICE_ONETIME || null;
+}
 
 function corsHeaders() {
   return {

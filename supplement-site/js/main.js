@@ -142,6 +142,12 @@ async function initiateStripeCheckout() {
   const mode = getCartMode();
   const price = mode === 'subscription' ? PRODUCT.priceSubscription : PRODUCT.priceOneTime;
 
+  // Determine bundle size from cart quantity
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  let bundleSize = 1;
+  if (totalQty >= 6) bundleSize = 6;
+  else if (totalQty >= 3) bundleSize = 3;
+
   const items = cart.map(item => ({
     name: PRODUCT.name + (mode === 'subscription' ? ' (Subscribe & Save)' : ''),
     description: PRODUCT.tagline,
@@ -168,6 +174,7 @@ async function initiateStripeCheckout() {
       body: JSON.stringify({
         items,
         mode: mode === 'subscription' ? 'subscription' : 'payment',
+        bundleSize,
       }),
     });
 

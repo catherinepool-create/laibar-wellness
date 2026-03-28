@@ -82,6 +82,11 @@ async function handleCheckoutComplete(session) {
   if (resend && session.customer_details?.email) {
     await sendOrderConfirmation(order);
   }
+
+  // Server-side Conversions API — Meta Pixel Purchase event
+  if (process.env.META_PIXEL_ID && process.env.META_ACCESS_TOKEN) {
+    await sendMetaConversionEvent(order, session);
+  }
 }
 
 async function handleSubscriptionCreated(subscription) {
@@ -172,5 +177,82 @@ async function sendOrderConfirmation(order) {
     console.log("Confirmation email sent to:", order.email);
   } catch (err) {
     console.error("Failed to send email:", err);
+  }
+}
+
+/**
+ * Meta Conversions API — server-side Purchase event
+ * Much more reliable than browser pixels (no ad blockers, no page-close race conditions)
+ *
+ * Required env vars:
+ *   META_PIXEL_ID      — Your Meta Pixel ID (same one used in the HTML snippet)
+ *   META_ACCESS_TOKEN   — Generate in Meta Events Manager > Settings > Generate Access Token
+ */
+async function sendMetaConversionEvent(order, session) {
+  try {
+    const pixelId = process.env.META_PIXEL_ID;
+    const accessToken = process.env.META_ACCESS_TOKEN;
+
+    const eventData = {
+      data: [
+        {
+          event_name: "Purchase",
+          event_time: Math.floor(Date.now() / 1000),
+          action_source: "website",
+          event_source_url: `${process.env.URL || "https://laibarwellness.com"}/order-success.html`,
+          user_data: {
+            em: order.email
+              ? [require("crypto").createHash("sha256").update(order.email.toLowerCase().trim()).digest("hex")]
+              : undefined,
+            fn: order.name
+              ? [require("crypto").createHash("sha256").update(order.name.split(" ")[0].toLowerCase().trim()).digest("hex")]
+              : undefined,
+            ln: order.name && order.name.split(" ").length > 1
+              ? [require("crypto").createHash("sha256").update(order.name.split(" ").slice(-1)[0].toLowerCase().trim()).digest("hex")]
+              : undefined,
+            ct: session.shipping_details?.address?.city
+              ? [require("crypto").createHash("sha256").update(session.shipping_details.address.city.toLowerCase().trim()).digest("hex")]
+              : undefined,
+            st: session.shipping_details?.address?.state
+              ? [require("crypto").createHash("sha256").update(session.shipping_details.address.state.toLowerCase().trim()).digest("hex")]
+              : undefined,
+            zp: session.shipping_details?.address?.postal_code
+              ? [require("crypto").createHash("sha256").update(session.shipping_details.address.postal_code.trim()).digest("hex")]
+              : undefined,
+            country: session.shipping_details?.address?.country
+              ? [require("crypto").createHash("sha256").update(session.shipping_details.address.country.toLowerCase().trim()).digest("hex")]
+              : undefined,
+          },
+          custom_data: {
+            currency: order.currency?.toUpperCase() || "USD",
+            value: order.amount,
+            content_type: "product",
+            contents: order.items
+              ? order.items.map((item) => ({
+                  id: "LAIBAR-JS-001",
+                  quantity: item.quantity,
+                  item_price: item.amount,
+                }))
+              : [{ id: "LAIBAR-JS-001", quantity: 1 }],
+            order_id: order.orderId,
+          },
+        },
+      ],
+    };
+
+    const response = await fetch(
+      `https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eventData),
+      }
+    );
+
+    const result = await response.json();
+    console.log("Meta CAPI Purchase event sent:", JSON.stringify(result));
+  } catch (err) {
+    console.error("Meta CAPI error:", err);
+    // Don't throw — purchase tracking failure shouldn't block order flow
   }
 }
