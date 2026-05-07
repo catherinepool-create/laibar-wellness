@@ -1,0 +1,8 @@
+# Netlify redirects for laibarwellness.com
+
+# Redirect www to apex
+https://www.laibarwellness.com/*  https://laibarwellness.com/:splat  301!
+
+# /blog (no extension) → blog.html — fixes GSC "Alternate page with proper canonical tag"
+/blog     /blog.html  301
+/blog/    /blog.html  301
