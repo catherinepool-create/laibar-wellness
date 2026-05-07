@@ -38,6 +38,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No new posts to commit."
           else
-            git commit -m "Auto-publish blog posts [skip ci]"
+            git commit -m "Auto-publish blog posts"
             git push
           fi
