@@ -1,5 +1,8 @@
 # Blog Posts — OpenClaw Drop Zone
 
+**Naming rule:** Files starting with `_` or `.` are ignored by the publish script.
+This file is named `_README.md` for that reason — do NOT rename it to `README.md`.
+
 Drop new `.md` files here. On push to `main`, GitHub Actions will automatically:
 1. Convert them to HTML in `blog/`
 2. Add a card to `blog.html`

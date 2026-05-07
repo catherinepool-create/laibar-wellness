@@ -241,7 +241,11 @@ def update_sitemap(slug, iso_date):
 
 
 def main():
-    md_files = sorted(POSTS_DIR.glob("*.md"))
+    # Exclude files starting with _ or . (README, drafts, etc.)
+    md_files = sorted(
+        p for p in POSTS_DIR.glob("*.md")
+        if not p.name.startswith(("_", "."))
+    )
     if not md_files:
         print("No .md files found in posts/ — nothing to do.")
         return
@@ -250,6 +254,11 @@ def main():
     for path in md_files:
         text = path.read_text(encoding="utf-8")
         meta, body = parse_frontmatter(text)
+
+        # Skip files without required frontmatter (e.g. README accidentally included)
+        if not meta.get("title"):
+            print(f"Skip (no frontmatter title): {path.name}")
+            continue
 
         # Derive slug
         if not meta.get("slug"):
